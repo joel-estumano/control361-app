@@ -1,3 +1,15 @@
+export interface DataResponse {
+    content: {
+        page: number;
+        perPage: string;
+        totalPages: number;
+        vehicles: Vehicle[];
+        locationVehicles: VehicleLocation[];
+    };
+    message: string;
+    statusCode: string;
+}
+
 export type FilterType = 'tracked' | 'others';
 
 export interface FilterState extends Record<string, unknown> {
@@ -16,4 +28,12 @@ export interface Vehicle {
     plate: string;
     status: string;
     type: string;
+}
+
+export interface VehicleLocation extends Omit<Vehicle, 'model' | 'status' | 'nameOwner' | 'type'> {
+    lat: number;
+    lng: number;
+    equipmentId: string;
+    name: string;
+    ignition: string;
 }
