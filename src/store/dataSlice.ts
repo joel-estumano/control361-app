@@ -49,7 +49,7 @@ const dataSlice = createSlice({
             })
             .addCase(fetchDataThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
-
+                state.error = null;
                 state.data = {
                     ...action.payload,
                     content: {
