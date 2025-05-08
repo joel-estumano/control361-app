@@ -1,6 +1,8 @@
 import React from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { Skeleton } from '../ui/skeleton';
+/* import { useSelector } from 'react-redux';
+import type { RootState } from '@/store/store'; */
 
 const containerStyle = {
     width: '100%',
@@ -41,6 +43,8 @@ export function Map() {
     const onUnmount = React.useCallback(function callback() {
         setMap(null);
     }, []);
+
+    // const { data } = useSelector((state: RootState) => state.data);
 
     return (
         <div className="rounded-lg overflow-hidden h-[518px]">
