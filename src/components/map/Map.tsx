@@ -1,8 +1,10 @@
-import React from 'react';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import React, { useEffect, useState } from 'react';
+import type { RootState } from '@/store/store';
+import type { VehicleLocation } from '@/types/types';
+import { formatDate, getRandomCarPin } from '@/lib/utils';
+import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { Skeleton } from '../ui/skeleton';
-/* import { useSelector } from 'react-redux';
-import type { RootState } from '@/store/store'; */
+import { useSelector } from 'react-redux';
 
 const containerStyle = {
     width: '100%',
@@ -20,23 +22,11 @@ export function Map() {
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API,
     });
 
-    /**
-     * Função de atualização do estado `map`, que armazena a instância do Google Maps.
-     *
-     * O estado `map` pode conter um objeto `google.maps.Map` quando inicializado,
-     * ou `null` quando o mapa ainda não foi carregado ou foi desmontado.
-     *
-     * Esta variável (`setMap`) é a função de atualização do estado, extraída diretamente
-     * do `useState`. Em vez de usar desestruturação (`const [map, setMap] = ...`),
-     * estamos acessando o índice `[1]` do array retornado pelo hook.
-     */
     const setMap = React.useState<google.maps.Map | null>(null)[1];
 
     const onLoad = React.useCallback(function callback(map: google.maps.Map) {
-        // Obtendo e usando a instância do mapa
         const bounds = new window.google.maps.LatLngBounds(center);
         map.fitBounds(bounds);
-
         setMap(map);
     }, []);
 
@@ -44,14 +34,85 @@ export function Map() {
         setMap(null);
     }, []);
 
-    // const { data } = useSelector((state: RootState) => state.data);
+    const { data } = useSelector((state: RootState) => state.data);
+
+    const [vehiclesWithPins, setVehiclesWithPins] = useState<VehicleLocation[]>([]);
+
+    const [selectedMarker, setSelectedMarker] = useState<VehicleLocation | null>(null);
+
+    useEffect(() => {
+        if (!data?.content?.locationVehicles?.length) {
+            setVehiclesWithPins([]);
+        } else {
+            setVehiclesWithPins(
+                data.content.locationVehicles.map((vehicle) => ({
+                    ...vehicle,
+                    pin: getRandomCarPin(),
+                }))
+            );
+        }
+        setSelectedMarker(null);
+    }, [data]);
+
+    /**
+     * Verifica se o clique ocorreu em um lugar válido no mapa (como padarias, lojas, etc.)
+     * e fecha o InfoWindow apenas nesses casos.
+     *
+     * @param event - Evento de clique do Google Maps.
+     * @param setSelectedMarker - Função para atualizar o estado do marcador selecionado.
+     */
+    function handleMapClick(event: google.maps.MapMouseEvent, setSelectedMarker: React.Dispatch<React.SetStateAction<VehicleLocation | null>>) {
+        const placeEvent = event as google.maps.IconMouseEvent;
+
+        if (placeEvent.placeId) {
+            setSelectedMarker(null); // Fecha o InfoWindow apenas se for um local do Google Maps
+        }
+    }
 
     return (
         <div className="rounded-lg overflow-hidden h-[518px]">
             {isLoaded ? (
-                <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12} onLoad={onLoad} onUnmount={onUnmount}>
-                    {/* Child components, such as markers, info windows, etc. */}
-                    <></>
+                <GoogleMap
+                    mapContainerClassName={selectedMarker ? 'app-map-marker' : ''}
+                    mapContainerStyle={containerStyle}
+                    center={center}
+                    zoom={12}
+                    onLoad={onLoad}
+                    onUnmount={onUnmount}
+                    onClick={(event) => handleMapClick(event, setSelectedMarker)}
+                >
+                    {vehiclesWithPins?.map((vehicle, i) => {
+                        const position = new google.maps.LatLng(vehicle.lat, vehicle.lng);
+                        return (
+                            <Marker
+                                position={position}
+                                key={i}
+                                onClick={() => setSelectedMarker(vehicle)}
+                                icon={{
+                                    url: vehicle.pin as string,
+                                    anchor: new google.maps.Point(20, -5),
+                                }}
+                            />
+                        );
+                    })}
+
+                    {selectedMarker && (
+                        <InfoWindow position={selectedMarker} onCloseClick={() => setSelectedMarker(null)}>
+                            <div className="flex flex-col gap-1 text-xs justify-center items-center py-2 px-4 w-fit">
+                                <p>Placa {selectedMarker.plate}</p>
+                                <p>Frota {selectedMarker.fleet}</p>
+                                <p> {formatDate(selectedMarker.createdAt)}</p>
+                                <a
+                                    className="underline underline-offset-2 decoration-foreground"
+                                    href={`https://www.google.com/maps?q=${selectedMarker.lat},${selectedMarker.lng}`}
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                >
+                                    {selectedMarker.lat}, {selectedMarker.lng}
+                                </a>
+                            </div>
+                        </InfoWindow>
+                    )}
                 </GoogleMap>
             ) : (
                 <Skeleton className="h-full w-full " />

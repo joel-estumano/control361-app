@@ -6,7 +6,6 @@ import { Map } from './components/map/Map';
 import { Navbar } from '@/components/navbar/Navbar';
 import { SearchBar } from './components/search-bar/SearchBar';
 import { Section } from '@/components/section/Section';
-import { Separator } from './components/ui/separator';
 import { setPage } from './store/filterSlice';
 import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux';
 import { useEffect } from 'react';
@@ -34,21 +33,16 @@ function App() {
     return (
         <div className="flex flex-grow h-svh w-screen flex-col overflow-hidden">
             <Navbar />
-            <div className="scrollbar overflow-y-auto py-5">
-                <Section>
-                    <div className="flex flex-col items-center justify-center overflow-y-auto gap-5 py-1">
-                        <SearchBar />
-                        <Separator />
-                        <Card className="space-y-3" title="Mapa Rastreador">
-                            <Map />
-                        </Card>
-                        <Card className="p-0">
-                            <List />
-                        </Card>
-                    </div>
-                </Section>
-                {data.content.vehicles.length && !isLoading && <div ref={ref} className="h-1 invisible"></div>}
-            </div>
+            <Section>
+                <SearchBar />
+                <Card title="Mapa Rastreador">
+                    <Map />
+                </Card>
+                <Card className="p-0">
+                    <List />
+                </Card>
+                <div className="h-1 invisible">{data.content.vehicles.length && !isLoading ? <div ref={ref}></div> : null}</div>
+            </Section>
         </div>
     );
 }
