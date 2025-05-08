@@ -150,3 +150,24 @@
         transition-duration: initial;
     }
 }
+
+.app-map-marker .gm-style .gm-style-iw-t .gm-style-iw {
+    @apply bg-background! p-1!;
+}
+
+.app-map-marker .gm-style .gm-style-iw-t .gm-style-iw .gm-style-iw-chr,
+.app-map-marker .gm-style .gm-style-iw-t .gm-style-iw .gm-style-iw-chr .gm-style-iw-ch {
+    @apply h-fit pt-0;
+}
+
+.app-map-marker .gm-style .gm-style-iw-t .gm-style-iw .gm-style-iw-chr .gm-ui-hover-effect {
+    @apply h-4! w-4! absolute! right-1 top-1;
+}
+
+.app-map-marker .gm-style .gm-style-iw-t .gm-style-iw .gm-style-iw-chr .gm-ui-hover-effect > span {
+    @apply bg-primary h-4! w-4! m-0!;
+}
+
+.app-map-marker .gm-style .gm-style-iw-t .gm-style-iw-tc::after {
+    @apply bg-muted!;
+}

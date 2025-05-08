@@ -9,7 +9,7 @@ const tableHeaders = ['Placa', 'Frota', 'Tipo', 'Modelo', 'Status'];
 export function List() {
     const { data, isLoading, error } = useSelector((state: RootState) => state.data);
 
-    if (error) return <p className="text-center py-2">Erro: {error}!</p>;
+    if (error) return <p className="text-center py-2 text-destructive">Erro: {error}!</p>;
 
     if (!data?.content?.vehicles?.length && !isLoading) return <p className="text-center py-2">Nada por aqui!</p>;
 

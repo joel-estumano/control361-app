@@ -9,7 +9,7 @@ interface CardProps {
 
 export function Card({ title, children, className }: CardProps) {
     return (
-        <div className={cn('border p-4 rounded-2xl w-full bg-surface overflow-hidden', className)}>
+        <div className={cn('border p-4 rounded-2xl w-full bg-surface overflow-hidden space-y-3', className)}>
             {title ? <p>{title}</p> : null}
             {children}
         </div>

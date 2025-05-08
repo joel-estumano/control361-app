@@ -6,8 +6,8 @@ interface SectionProps {
 
 export function Section({ children }: SectionProps) {
     return (
-        <section>
-            <div className="h-full mx-auto px-4 max-w-screen-xl">{children}</div>
+        <section className="block h-full w-full scrollbar overflow-y-auto px-4">
+            <div className="block h-auto w-full max-w-screen-xl mx-auto space-y-5 gap-5 relative">{children}</div>
         </section>
     );
 }

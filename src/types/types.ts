@@ -36,4 +36,5 @@ export interface VehicleLocation extends Omit<Vehicle, 'model' | 'status' | 'nam
     equipmentId: string;
     name: string;
     ignition: string;
+    pin?: string;
 }
