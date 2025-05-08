@@ -1,16 +1,16 @@
 import './index.css';
 import type { RootState } from './store/store';
+import type { Vehicle } from './types/types';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Card } from './components/card/Card';
 import { fetchData } from './api/api';
 import { Navbar } from '@/components/navbar/Navbar';
 import { SearchBar } from './components/search-bar/SearchBar';
 import { Section } from '@/components/section/Section';
-import { useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
-
 import { Table, TableBody, /* TableCaption, */ TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useEffect } from 'react';
-import type { Vehicle } from './types/types';
+import { useQuery } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
 
 function App() {
     const filters = useSelector((state: RootState) => state.filters);
@@ -29,7 +29,7 @@ function App() {
     if (error) return <p>Erro ao carregar os dados.</p>;
 
     return (
-        <div className="flex flex-grow h-screen w-screen flex-col overflow-hidden">
+        <div className="flex flex-grow h-svh w-screen flex-col overflow-hidden">
             <Navbar />
             <div className="scrollbar overflow-y-auto py-5">
                 <Section>
@@ -40,7 +40,8 @@ function App() {
                             <p>Mapa Rastreador</p>
                         </Card>
                         <Card className="p-0">
-                            <Table className="table-fixed">
+                            {/* large devices */}
+                            <Table className="max-sm:hidden table-fixed">
                                 {/*  <TableCaption>A list of your recent invoices.</TableCaption> */}
                                 <TableHeader>
                                     <TableRow className="text-sm [&>*]:not-last:border-r">
@@ -64,7 +65,7 @@ function App() {
                                                 <p className="truncate">{vehicle.type}</p>
                                             </TableCell>
                                             <TableCell className="text-center py-4">
-                                                <p className="truncate"> {vehicle.model}</p>
+                                                <p className="truncate">{vehicle.model}</p>
                                             </TableCell>
                                             <TableCell className="text-center py-4">
                                                 <p className="truncate">{vehicle.status}</p>
@@ -73,6 +74,32 @@ function App() {
                                     ))}
                                 </TableBody>
                             </Table>
+                            {/* small devices */}
+                            <Accordion type="single" collapsible className="sm:hidden">
+                                {data?.content?.vehicles?.map((vehicle: Vehicle, index: number) => (
+                                    <AccordionItem value={'vehicle-' + index} key={index} className="px-4">
+                                        <AccordionTrigger>
+                                            <p className="truncate font-semibold">{vehicle.plate}</p>
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                            <div className="grid text-xs grid-rows-4 gap-1">
+                                                <p className="truncate">
+                                                    Frota: <span className="font-normal text-muted-foreground">{vehicle.fleet}</span>
+                                                </p>
+                                                <p className="truncate">
+                                                    Tipo: <span className="font-normal text-muted-foreground">{vehicle.type}</span>
+                                                </p>
+                                                <p className="truncate">
+                                                    Modelo: <span className="font-normal text-muted-foreground">{vehicle.model}</span>
+                                                </p>
+                                                <p className="truncate">
+                                                    Status: <span className="font-normal text-muted-foreground">{vehicle.status}</span>
+                                                </p>
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
                         </Card>
                     </div>
                 </Section>
