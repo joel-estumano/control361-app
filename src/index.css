@@ -142,3 +142,10 @@
         scrollbar-color: #001e2e var(--secondary);
     }
 }
+
+.gm-style {
+    width: 100% !important;
+    div {
+        transition-duration: initial;
+    }
+}

@@ -4,6 +4,7 @@ import type { Vehicle } from './types/types';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Card } from './components/card/Card';
 import { fetchData } from './api/api';
+import { Map } from './components/map/Map';
 import { Navbar } from '@/components/navbar/Navbar';
 import { SearchBar } from './components/search-bar/SearchBar';
 import { Section } from '@/components/section/Section';
@@ -36,8 +37,9 @@ function App() {
                     <div className="flex flex-col items-center justify-center overflow-y-auto gap-5 py-1">
                         <SearchBar />
                         <hr className="w-full border" />
-                        <Card>
+                        <Card className="space-y-3">
                             <p>Mapa Rastreador</p>
+                            <Map />
                         </Card>
                         <Card className="p-0">
                             {/* large devices */}
