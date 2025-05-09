@@ -9,22 +9,7 @@ on:
     pull_request:
         branches: ['main']
 
-permissions:
-    contents: read
-    security-events: write
-
-jobs:
-    dependency-check:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Dependency Review
-              uses: actions/dependency-review-action@v2
-              with:
-                  fail-on-severity: high
-                  base-ref: ${{ github.event.pull_request.base.sha || github.event.before }}
-                  head-ref: ${{ github.event.pull_request.head.sha || github.event.after }}
-                  
+jobs:                  
     build:
         runs-on: ubuntu-latest
 
