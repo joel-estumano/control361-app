@@ -38,3 +38,5 @@ export interface VehicleLocation extends Omit<Vehicle, 'model' | 'status' | 'nam
     ignition: string;
     pin?: string;
 }
+
+export type VehicleFull = Vehicle & Partial<VehicleLocation>;

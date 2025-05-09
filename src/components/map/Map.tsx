@@ -3,7 +3,7 @@ import type { RootState } from '@/store/store';
 import type { VehicleLocation } from '@/types/types';
 import { formatDate, getRandomCarPin } from '@/lib/utils';
 import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useSelector } from 'react-redux';
 
 const containerStyle = {
