@@ -108,7 +108,7 @@ export function List() {
                 </Table>
             )}
 
-            <DialogVehicleDetails isOpen={isOpen} setIsOpen={setIsOpen} plate={selectedVehiclePlate} />
+            {isOpen ? <DialogVehicleDetails isOpen={isOpen} setIsOpen={setIsOpen} plate={selectedVehiclePlate} /> : null}
         </>
     );
 }

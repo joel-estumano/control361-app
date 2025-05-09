@@ -57,7 +57,7 @@ export function DialogVehicleDetails({ plate, isOpen, setIsOpen }: DialogVehicle
                                         target="_blank"
                                     >
                                         {vehicle.lat}, {vehicle.lng}
-                                    </a>{' '}
+                                    </a>
                                 </>
                             ) : null}
                         </DialogDescription>
