@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { DataResponse, VehicleFull } from '@/types/types';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
+import type { DataResponse, Vehicle, VehicleFull, VehicleLocation } from '@/types/types';
 import type { RootState } from './store';
 
 const dataSlice = createSlice({
@@ -36,14 +36,33 @@ const dataSlice = createSlice({
         updateData(state, action) {
             state.isLoading = false;
             state.error = null;
+
+            const newVehicles = action.payload.content.vehicles || [];
+            const existingVehicles = state.data?.content?.vehicles || [];
+
+            const mergedVehicles = [...existingVehicles, ...newVehicles].reduce((acc, vehicle) => {
+                if (!acc.some((v: Vehicle) => v.id === vehicle.id)) {
+                    acc.push(vehicle);
+                }
+                return acc;
+            }, []);
+
+            const newLocations = action.payload.content.locationVehicle || [];
+            const existingLocations = state.data?.content?.locationVehicles || [];
+
+            const mergedLocations = [...existingLocations, ...newLocations].reduce((acc, location) => {
+                if (!acc.some((l: VehicleLocation) => l.id === location.id)) {
+                    acc.push(location);
+                }
+                return acc;
+            }, []);
+
             state.data = {
                 ...action.payload,
                 content: {
                     ...action.payload.content,
-                    vehicles:
-                        action.payload.content.page === 1
-                            ? action.payload.content.vehicles
-                            : [...state.data.content.vehicles, ...action.payload.content.vehicles],
+                    vehicles: mergedVehicles,
+                    locationVehicle: mergedLocations,
                 },
             };
         },
@@ -59,20 +78,25 @@ const dataSlice = createSlice({
     },
 });
 
-export const selectVehicleByPlate = (state: RootState, plate: string): VehicleFull | undefined => {
-    const vehicles = state.data.data.content.vehicles || [];
-    const locationVehicles = state.data.data.content.locationVehicles || [];
+export const selectVehicleByPlate = createSelector(
+    [
+        (state: RootState) => state.data.data.content.vehicles || [],
+        (state: RootState) => state.data.data.content.locationVehicles || [],
+        (_, plate: string) => plate,
+    ],
+    (vehicles, locationVehicles, plate): VehicleFull | undefined => {
+        const vehicle = vehicles.find((v) => v.plate === plate);
+        const locationVehicle = locationVehicles.find((v) => v.plate === plate);
 
-    const vehicle = vehicles.find((v) => v.plate === plate);
-    const locationVehicle = locationVehicles.find((v) => v.plate === plate);
+        if (!vehicle && !locationVehicle) return undefined;
+        if (!vehicle) return locationVehicle as VehicleFull;
+        if (!locationVehicle) return vehicle;
 
-    if (!vehicle && !locationVehicle) return undefined;
+        return vehicle || locationVehicle ? ({ ...vehicle, ...locationVehicle } as VehicleFull) : undefined;
+    }
+);
 
-    return {
-        ...vehicle,
-        ...locationVehicle,
-    } as VehicleFull;
-};
+export const selectPagesLoaded = (state: RootState) => state.data.data.content.page;
 
 export const { resetData, updateData, setLoading, setError } = dataSlice.actions;
 export default dataSlice.reducer;

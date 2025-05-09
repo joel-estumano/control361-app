@@ -1,7 +1,7 @@
 import type { RootState } from './store/store';
 import { Button } from './components/ui/button';
 import { Card } from './components/card/Card';
-import { DataProvider } from './components/DataProvider';
+import { DataProvider } from './components/data-provider/DataProvider';
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { List } from './components/list/List';
 import { ListFilter } from 'lucide-react';
