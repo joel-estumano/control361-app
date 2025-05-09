@@ -115,7 +115,7 @@ export function Map() {
                                 <p>Frota {selectedMarker.fleet}</p>
                                 <p> {formatDate(selectedMarker.createdAt)}</p>
                                 <a
-                                    className="underline underline-offset-2 decoration-foreground"
+                                    className="underline underline-offset-2 decoration-foreground text-nowrap"
                                     href={`https://www.google.com/maps?q=${selectedMarker.lat},${selectedMarker.lng}`}
                                     rel="noopener noreferrer"
                                     target="_blank"
