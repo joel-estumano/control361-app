@@ -20,8 +20,6 @@ export function Map() {
     const [map, setMap] = React.useState<google.maps.Map | null>(null);
 
     const onLoad = React.useCallback(function callback(map: google.maps.Map) {
-        // const bounds = new window.google.maps.LatLngBounds();
-        // map.fitBounds(bounds);
         setMap(map);
     }, []);
 
@@ -117,7 +115,7 @@ export function Map() {
                                 <p>Frota {selectedMarker.fleet}</p>
                                 <p> {formatDate(selectedMarker.createdAt)}</p>
                                 <a
-                                    className="underline underline-offset-2 decoration-foreground"
+                                    className="underline underline-offset-2 decoration-foreground text-nowrap"
                                     href={`https://www.google.com/maps?q=${selectedMarker.lat},${selectedMarker.lng}`}
                                     rel="noopener noreferrer"
                                     target="_blank"
