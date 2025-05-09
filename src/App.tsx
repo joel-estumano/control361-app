@@ -34,7 +34,7 @@ function App() {
         <div className="flex flex-grow h-svh w-screen flex-col overflow-hidden">
             <Navbar />
             <DataProvider filters={filters} />
-            <Section className="max-sm:[&>*:nth-child(1)]:mb-0">
+            <Section className="max-sm:[&>*:nth-child(1)]:order-3 max-sm:[&>*:nth-child(1)]:bottom-0 max-sm:[&>*:nth-child(odd)]:mb-0 max-sm:[&>*:nth-child(2)]:mt-5">
                 {isMobile ? (
                     <Drawer>
                         <DrawerTrigger asChild>
