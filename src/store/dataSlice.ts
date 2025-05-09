@@ -1,13 +1,6 @@
-import type { RootState } from '@/store/store';
-import type { DataResponse } from '@/types/types';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchData } from '@/api/api';
-
-export const fetchDataThunk = createAsyncThunk<DataResponse>('data/fetchData', async (_, { getState }) => {
-    const state = getState() as RootState;
-    const filters = state.filters;
-    return await fetchData(filters);
-});
+import { createSlice } from '@reduxjs/toolkit';
+import type { DataResponse, VehicleFull } from '@/types/types';
+import type { RootState } from './store';
 
 const dataSlice = createSlice({
     name: 'data',
@@ -40,33 +33,46 @@ const dataSlice = createSlice({
                 statusCode: '',
             };
         },
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchDataThunk.pending, (state) => {
-                state.isLoading = true;
+        updateData(state, action) {
+            state.isLoading = false;
+            state.error = null;
+            state.data = {
+                ...action.payload,
+                content: {
+                    ...action.payload.content,
+                    vehicles:
+                        action.payload.content.page === 1
+                            ? action.payload.content.vehicles
+                            : [...state.data.content.vehicles, ...action.payload.content.vehicles],
+                },
+            };
+        },
+        setLoading(state, action) {
+            state.isLoading = action.payload;
+            if (state.isLoading) {
                 state.error = null;
-            })
-            .addCase(fetchDataThunk.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.error = null;
-                state.data = {
-                    ...action.payload,
-                    content: {
-                        ...action.payload.content,
-                        vehicles:
-                            action.payload.content.page === 1
-                                ? action.payload.content.vehicles
-                                : [...state.data.content.vehicles, ...action.payload.content.vehicles],
-                    },
-                };
-            })
-            .addCase(fetchDataThunk.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.error.message || 'Erro desconhecido';
-            });
+            }
+        },
+        setError(state, action) {
+            state.error = action.payload;
+        },
     },
 });
 
-export const { resetData } = dataSlice.actions;
+export const selectVehicleByPlate = (state: RootState, plate: string): VehicleFull | undefined => {
+    const vehicles = state.data.data.content.vehicles || [];
+    const locationVehicles = state.data.data.content.locationVehicles || [];
+
+    const vehicle = vehicles.find((v) => v.plate === plate);
+    const locationVehicle = locationVehicles.find((v) => v.plate === plate);
+
+    if (!vehicle && !locationVehicle) return undefined;
+
+    return {
+        ...vehicle,
+        ...locationVehicle,
+    } as VehicleFull;
+};
+
+export const { resetData, updateData, setLoading, setError } = dataSlice.actions;
 export default dataSlice.reducer;
