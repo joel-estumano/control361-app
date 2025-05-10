@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { RootState } from '@/store/store';
 import type { VehicleLocation } from '@/types/types';
-import { formatDate, getRandomCarPin } from '@/lib/utils';
+import { formatDate, getCarPinByPlate } from '@/lib/utils';
 import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSelector } from 'react-redux';
@@ -40,7 +40,7 @@ export function Map() {
             setVehiclesWithPins(
                 data.content.locationVehicles.map((vehicle) => ({
                     ...vehicle,
-                    pin: getRandomCarPin(),
+                    pin: getCarPinByPlate(vehicle.plate),
                 }))
             );
 

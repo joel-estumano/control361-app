@@ -43,7 +43,7 @@ export function List() {
     return (
         <>
             {isMobile ? (
-                <Accordion type="single" collapsible>
+                <Accordion data-testid="vehicle-accordion" type="single" collapsible>
                     {data?.content?.vehicles?.map((vehicle: Vehicle, index: number) => {
                         const vehicleValues = [vehicle.fleet, vehicle.type, vehicle.model, vehicle.status];
                         return (
@@ -52,14 +52,13 @@ export function List() {
                                     <p className="truncate font-semibold">{vehicle.plate}</p>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <div className="grid text-xs grid-rows-4 gap-1">
+                                    <div className="grid text-xs grid-rows-4 gap-2">
                                         {vehicleValues.map((value, i) => (
                                             <p key={i} className="truncate">
                                                 {tableHeaders[i + 1]}: <span className="font-normal text-muted-foreground">{value ?? '*'}</span>
                                             </p>
                                         ))}
-
-                                        <Button className="w-fit p-0" size={'sm'} variant={'link'} onClick={() => handleRowClick(vehicle.plate)}>
+                                        <Button size="sm" variant="outline" title="Ver detalhes" onClick={() => handleRowClick(vehicle.plate)}>
                                             Ver detalhes
                                         </Button>
                                     </div>
@@ -70,7 +69,7 @@ export function List() {
                     {isLoading && <p className="text-center py-4 text-sm">Carregando...</p>}
                 </Accordion>
             ) : (
-                <Table className="table-fixed">
+                <Table data-testid="vehicle-table" className="table-fixed">
                     <TableHeader>
                         <TableRow className="text-sm [&>*]:not-last:border-r">
                             {tableHeaders.map((header, i) => (
