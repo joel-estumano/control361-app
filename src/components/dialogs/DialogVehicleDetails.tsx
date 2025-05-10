@@ -24,60 +24,58 @@ export function DialogVehicleDetails({ plate, isOpen, setIsOpen }: DialogVehicle
                 <Separator />
                 {vehicle ? (
                     <>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Placa:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Placa:</span>
                             <span data-testid="placa">{vehicle.plate ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Frota:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Frota:</span>
                             <span data-testid="frota">{vehicle.fleet ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Tipo:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Tipo:</span>
                             <span data-testid="tipo">{vehicle.type ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Modelo:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Modelo:</span>
                             <span data-testid="modelo">{vehicle.model ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Status:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Status:</span>
                             <span data-testid="status">{vehicle.status ?? '*'}</span>
                         </DialogDescription>
                         <Separator />
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Nome:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Nome:</span>
                             <span data-testid="nome">{vehicle.name ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Proprietário:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Proprietário:</span>
                             <span data-testid="proprietario">{vehicle.nameOwner ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Registrado em:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Registrado em:</span>
                             <span data-testid="registradoem">{formatDate(vehicle.createdAt) ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <span className="text-foreground">Ignição:</span>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Ignição:</span>
                             <span data-testid="ignicao">{vehicle.ignition ?? '*'}</span>
                         </DialogDescription>
-                        <DialogDescription className="space-x-1.5">
-                            <>
-                                <span className="text-foreground">Localização:</span>
-                                {vehicle.lat && vehicle.lng ? (
-                                    <a
-                                        data-testid="localizacao"
-                                        className="underline underline-offset-2 text-primary decoration-primary text-nowrap"
-                                        href={`https://www.google.com/maps?q=${vehicle.lat},${vehicle.lng}`}
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        {vehicle.lat}, {vehicle.lng}
-                                    </a>
-                                ) : (
-                                    '*'
-                                )}
-                            </>
+                        <DialogDescription>
+                            <span className="text-foreground me-1.5">Localização:</span>
+                            {vehicle.lat && vehicle.lng ? (
+                                <a
+                                    data-testid="localizacao"
+                                    className="underline underline-offset-2 text-primary decoration-primary text-nowrap"
+                                    href={`https://www.google.com/maps?q=${vehicle.lat},${vehicle.lng}`}
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                >
+                                    {vehicle.lat}, {vehicle.lng}
+                                </a>
+                            ) : (
+                                '*'
+                            )}
                         </DialogDescription>
                     </>
                 ) : (
