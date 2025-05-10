@@ -54,7 +54,13 @@ export function SearchBar() {
                 <div className="flex flex-col sm:flex-row w-full justify-between items-center gap-4">
                     <div className="flex gap-4 lg:gap-36 w-full sm:w-fit max-sm:justify-between">
                         <Label htmlFor="search">Lista</Label>
-                        <RadioGroup defaultValue={filters.type} className="flex" onValueChange={(value) => handlerDispatch('type', value)} disabled={isLoading}>
+                        <RadioGroup
+                            data-testid="radio-group"
+                            defaultValue={filters.type}
+                            className="flex"
+                            onValueChange={(value) => handlerDispatch('type', value)}
+                            disabled={isLoading}
+                        >
                             {options.map((option) => (
                                 <div key={option.id} className="flex items-center space-x-3">
                                     <RadioGroupItem value={option.value} id={option.id} />
@@ -66,6 +72,7 @@ export function SearchBar() {
                         </RadioGroup>
                     </div>
                     <Input
+                        data-testid="search"
                         type="search"
                         placeholder="Buscar por placa ou frota"
                         className="md:w-80 md:shrink-0 text-xs h-10"
@@ -75,7 +82,7 @@ export function SearchBar() {
                     />
                 </div>
                 {isMobile ? null : (
-                    <Button className="w-full sm:w-[150px] rounded-[8px] p-2.5 text-xs h-10 cursor-pointer" title="Novo">
+                    <Button data-testid="new" className="w-full sm:w-[150px] rounded-[8px] p-2.5 text-xs h-10 cursor-pointer" title="Novo">
                         Novo
                     </Button>
                 )}
