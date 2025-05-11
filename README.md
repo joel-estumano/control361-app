@@ -56,9 +56,9 @@ npm install
 
 ### Variáveis de Ambiente
 
-❗ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu `.env` 
+❗ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu `.env`
 
-- *Copie e cole o arquivo `.env.example`, renomeie para `.env` e preencha com as informações necessárias.*
+- _Copie e cole o arquivo `.env.example`, renomeie para `.env` e preencha com as informações necessárias._
 
 #### URL base da API utilizada na aplicação
 
@@ -89,14 +89,17 @@ A aplicação estará acessível em: http://localhost:5173/ 💻
 ### Docker 🐋
 
 Antes de iniciar, certifique-se de que você tem:
+
 - Docker instalado [Informações e download aqui](https://www.docker.com/get-started/).
 - Docker Compose configurado corretamente.
 - Arquivo `.env` devidamente preenchido com as variáveis de ambiente necessárias.
 
 Execute:
+
 ```
 docker-compose up --build -d
 ```
+
 Após iniciar, a aplicação estará acessível em: http://localhost:5173/ 💻
 
 ### Documentação da API
