@@ -1,54 +1,87 @@
-# React + TypeScript + Vite
+# Control361 App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Bem vindo ao projeto Control361 App
 
-Currently, two official plugins are available:
+### Autores
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Joel Estumano](https://www.joelestumano.com/)
 
-## Expanding the ESLint configuration
+### Demonstração
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [Demo](https://control361-app-bl7m.vercel.app/) 🚀
 
-```js
-export default tseslint.config({
-    extends: [
-        // Remove ...tseslint.configs.recommended and replace with this
-        ...tseslint.configs.recommendedTypeChecked,
-        // Alternatively, use this for stricter rules
-        ...tseslint.configs.strictTypeChecked,
-        // Optionally, add this for stylistic rules
-        ...tseslint.configs.stylisticTypeChecked,
-    ],
-    languageOptions: {
-        // other options...
-        parserOptions: {
-            project: ['./tsconfig.node.json', './tsconfig.app.json'],
-            tsconfigRootDir: import.meta.dirname,
-        },
-    },
-});
+Esta iniciativa foi desenvolvida como uma proposta para o desafio de vaga full stack com foco em frontend, utilizando React, TypeScript e Vite, além da biblioteca de componentes [ShadCN UI](https://ui.shadcn.com/docs/installation/vite).
+
+O projeto atende aos seguintes requisitos:
+
+Especificações da tela:
+
+- O mapa deve apresentar todos os veiculos simultaneamente e ser atualizada a cada 2 minutos automáticamente.
+- A lista deve carregar 20 veiculos e ter um carrossel infinito que carrega mais veiculos sempre que scrolamos até o final da lista.
+- Ao clicar em um veiculo da tela, apresentar os detalhes do veiculo.
+- Entre os detalhes do veiculo existe um link que abre o google maps nas coordenadas do veiculo.
+- Filtro pela placa do veiculo e pelo numero de frota.
+
+Devendo ser desenvolvido com:
+
+- JS, React e NestJS
+- TypeScript
+- Testes com Jest / React Testing Libery
+- React Query para gerenciamento de requisições
+- Estilização com TailwindCSS
+- Formulários com React Hook Form e validação com Zod
+- Conhecimento em processos de CI/CD
+
+### Corte Figma
+
+![Figma](https://joel-estumano.github.io/public/img/apps/teste-control361-figma.png)
+
+### Clonando o Repositório e Rodando o Projet 🛠️
+
+Usando o terminal:
+
+- Clone o repositório usando o seguinte comando:
+
+```
+git clone https://github.com/joel-estumano/control361-app.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- No diretório do projeto instale as dependências:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default tseslint.config({
-    plugins: {
-        // Add the react-x and react-dom plugins
-        'react-x': reactX,
-        'react-dom': reactDom,
-    },
-    rules: {
-        // other rules...
-        // Enable its recommended typescript rules
-        ...reactX.configs['recommended-typescript'].rules,
-        ...reactDom.configs.recommended.rules,
-    },
-});
 ```
+npm install
+```
+
+### Variáveis de Ambiente
+
+Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu `.env`
+
+#### URL base da API utilizada na aplicação
+
+`VITE_API_URL`=https://develop-back-rota.rota361.com.br
+
+#### 🔑 Token de autenticação para acessar a API
+
+`VITE_API_TOKEN`
+
+#### 🔑 Chave de API do Google Maps
+
+`VITE_GOOGLE_MAPS_API`
+
+#### ⏱️Tempo de atualização automática (em segundos). Exemplo: 60 para 1 minuto.
+
+`VITE_TIME_IN_SECONDS_FOR_AUTOMATIC_UPDATE`
+
+Execute o projeto
+
+```
+ npm run dev
+```
+
+A aplicação estará disponível em: http://localhost:5173/ 💻
+
+### Documentação da API
+
+API da Rota para rastreamento de veículos e gerenciamento de dados relacionados a viagens, alertas, motoristas, etc.
+
+[Documentação da API](https://develop-back-rota.rota361.com.br/recruitment)🛢️
