@@ -2,7 +2,7 @@
 
 ### Bem vindo ao projeto Control361 App
 
-### Autores
+### Autor
 
 - [Joel Estumano](https://www.joelestumano.com/)
 
