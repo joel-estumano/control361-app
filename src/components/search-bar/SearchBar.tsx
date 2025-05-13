@@ -62,12 +62,14 @@ export function SearchBar() {
                             disabled={isLoading}
                         >
                             {options.map((option) => (
-                                <div key={option.id} className="flex items-center space-x-3">
+                                <Label
+                                    htmlFor={option.id}
+                                    className={`text-xs gap-3 [&>*]:cursor-pointer ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer '}`}
+                                    key={option.id}
+                                >
                                     <RadioGroupItem value={option.value} id={option.id} />
-                                    <Label htmlFor={option.id} className="text-xs">
-                                        {option.label}
-                                    </Label>
-                                </div>
+                                    {option.label}
+                                </Label>
                             ))}
                         </RadioGroup>
                     </div>
@@ -75,7 +77,7 @@ export function SearchBar() {
                         data-testid="search"
                         type="search"
                         placeholder="Buscar por placa ou frota"
-                        className="md:w-80 md:shrink-0 text-xs h-10"
+                        className="md:w-80 md:shrink-0 text-xs h-10 disabled:pointer-events-auto"
                         defaultValue={filters.filter}
                         onChange={(e) => searchSubject.next(e.target.value)}
                         disabled={isLoading}
