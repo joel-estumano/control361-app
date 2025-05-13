@@ -11,6 +11,8 @@ const containerStyle = {
     height: '518px',
 };
 
+const defaultCenter = { lat: -23.55052, lng: -46.633308 }; // São Paulo
+
 export function Map() {
     const { isLoaded } = useJsApiLoader({
         id: 'DEMO_MAP_ID',
@@ -55,17 +57,21 @@ export function Map() {
      * @param locations - Lista de localizações dos marcadores.
      */
     function adjustMapBounds(map: google.maps.Map | null, locations: VehicleLocation[]) {
-        if (!map || !locations.length) return;
-
         const bounds = new google.maps.LatLngBounds();
 
-        locations.forEach((vehicle) => {
-            bounds.extend(new google.maps.LatLng(vehicle.lat, vehicle.lng));
-        });
-
-        if (!bounds.isEmpty()) {
-            map.fitBounds(bounds);
+        if (locations.length) {
+            locations.forEach((vehicle) => {
+                bounds.extend(new google.maps.LatLng(vehicle.lat, vehicle.lng));
+            });
+        } else {
+            // Definir bounds padrão caso não haja veículos
+            bounds.extend(new google.maps.LatLng(-23.55052, -46.633308)); // Exemplo: São Paulo
+            bounds.extend(new google.maps.LatLng(-22.906847, -43.172896)); // Exemplo: Rio de Janeiro
         }
+
+        if (!map || bounds.isEmpty()) return;
+
+        map.fitBounds(bounds);
     }
 
     /**
@@ -88,12 +94,14 @@ export function Map() {
             case error !== null:
                 return <p>😞</p>;
             case isLoading:
-                return <Skeleton className="h-full w-full " />;
+                return <Skeleton className="h-full w-full" />;
             default:
                 return (
                     <GoogleMap
                         mapContainerClassName={selectedMarker ? 'app-map-marker' : ''}
                         mapContainerStyle={containerStyle}
+                        center={defaultCenter}
+                        zoom={6}
                         onLoad={onLoad}
                         onUnmount={onUnmount}
                         onClick={(event) => handleMapClick(event, setSelectedMarker)}
