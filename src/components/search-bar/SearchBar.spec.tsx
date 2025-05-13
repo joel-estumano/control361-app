@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { SearchBar } from './SearchBar';
+import type { FilterState } from '@/types/types';
 
 jest.mock('react-redux', () => ({
     useSelector: jest.fn(),
@@ -27,7 +28,7 @@ const mockUseBreakpoint = jest.requireMock('@/context/BreakpointContext').useBre
 describe('SearchBar', () => {
     beforeEach(() => {
         jest.resetAllMocks();
-        mockUseSelector.mockReturnValue({ isLoading: false, type: 'tracked', filter: '' });
+        mockUseSelector.mockReturnValue({ isLoading: false, type: 'tracked', filter: '', page: 1, perPage: 20 } as FilterState);
         mockUseDispatch.mockReturnValue(jest.fn());
         mockUseBreakpoint.mockReturnValue({ isMobile: false });
     });
