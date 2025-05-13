@@ -53,10 +53,10 @@ beforeEach(() => {
                 perPage: '10',
                 totalPages: 1,
                 vehicles: [],
-                locationVehicles: []
-            }
+                locationVehicles: [],
+            },
         },
-        isLoading: false
+        isLoading: false,
     });
 
     mockUseDispatch.mockReturnValue(jest.fn());
@@ -86,11 +86,7 @@ beforeEach(() => {
 
 // ✅ Criando um ErrorBoundary para capturar erros silenciosos
 function TestErrorBoundary({ children }: { children: React.ReactNode }) {
-    return (
-        <React.Suspense fallback={<div>Carregando...</div>}>
-            {children}
-        </React.Suspense>
-    );
+    return <React.Suspense fallback={<div>Carregando...</div>}>{children}</React.Suspense>;
 }
 
 describe('App', () => {

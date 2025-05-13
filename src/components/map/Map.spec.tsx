@@ -4,23 +4,25 @@ import { render } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 
 jest.mock('react-redux', () => ({
-    useSelector: jest.fn()
+    useSelector: jest.fn(),
 }));
 
 const mockSelector = (data: Partial<DataResponse>) => {
-    (useSelector as unknown as jest.Mock).mockImplementation((callback) => callback({
-        data: {
-            content: {
-                page: data.content?.page ?? 1,
-                perPage: data.content?.perPage ?? '10',
-                totalPages: data.content?.totalPages ?? 1,
-                vehicles: data.content?.vehicles ?? [],
-                locationVehicles: data.content?.locationVehicles ?? [],
+    (useSelector as unknown as jest.Mock).mockImplementation((callback) =>
+        callback({
+            data: {
+                content: {
+                    page: data.content?.page ?? 1,
+                    perPage: data.content?.perPage ?? '10',
+                    totalPages: data.content?.totalPages ?? 1,
+                    vehicles: data.content?.vehicles ?? [],
+                    locationVehicles: data.content?.locationVehicles ?? [],
+                },
+                message: data.message ?? 'Success',
+                statusCode: data.statusCode ?? '200',
             },
-            message: data.message ?? 'Success',
-            statusCode: data.statusCode ?? '200',
-        }
-    }));
+        })
+    );
 };
 
 describe('Map', () => {
@@ -42,12 +44,12 @@ describe('Map', () => {
                         id: '',
                         ignition: '',
                         name: '',
-                        pin: ''
-                    }
-                ]
+                        pin: '',
+                    },
+                ],
             },
             message: 'Success',
-            statusCode: '200'
+            statusCode: '200',
         });
     });
 
