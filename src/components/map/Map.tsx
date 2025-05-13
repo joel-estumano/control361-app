@@ -27,7 +27,7 @@ export function Map() {
         setMap(null);
     }, []);
 
-    const { data } = useSelector((state: RootState) => state.data);
+    const { data, isLoading, error } = useSelector((state: RootState) => state.data);
 
     const [vehiclesWithPins, setVehiclesWithPins] = useState<VehicleLocation[]>([]);
 
@@ -83,52 +83,56 @@ export function Map() {
         }
     }
 
-    return (
-        <div className="rounded-lg overflow-hidden h-[518px]">
-            {isLoaded ? (
-                <GoogleMap
-                    mapContainerClassName={selectedMarker ? 'app-map-marker' : ''}
-                    mapContainerStyle={containerStyle}
-                    onLoad={onLoad}
-                    onUnmount={onUnmount}
-                    onClick={(event) => handleMapClick(event, setSelectedMarker)}
-                >
-                    {vehiclesWithPins?.map((vehicle, i) => {
-                        const position = new google.maps.LatLng(vehicle.lat, vehicle.lng);
-                        return (
-                            <Marker
-                                position={position}
-                                key={i}
-                                onClick={() => setSelectedMarker(vehicle)}
-                                icon={{
-                                    url: vehicle.pin as string,
-                                    anchor: new google.maps.Point(20, -5),
-                                }}
-                            />
-                        );
-                    })}
+    function renderSwitch() {
+        switch (true) {
+            case error !== null:
+                return <p>😞</p>;
+            case isLoading:
+                return <Skeleton className="h-full w-full " />;
+            default:
+                return (
+                    <GoogleMap
+                        mapContainerClassName={selectedMarker ? 'app-map-marker' : ''}
+                        mapContainerStyle={containerStyle}
+                        onLoad={onLoad}
+                        onUnmount={onUnmount}
+                        onClick={(event) => handleMapClick(event, setSelectedMarker)}
+                    >
+                        {vehiclesWithPins?.map((vehicle, i) => {
+                            const position = new google.maps.LatLng(vehicle.lat, vehicle.lng);
+                            return (
+                                <Marker
+                                    position={position}
+                                    key={i}
+                                    onClick={() => setSelectedMarker(vehicle)}
+                                    icon={{
+                                        url: vehicle.pin as string,
+                                        anchor: new google.maps.Point(20, -5),
+                                    }}
+                                />
+                            );
+                        })}
+                        {selectedMarker && (
+                            <InfoWindow position={selectedMarker} onCloseClick={() => setSelectedMarker(null)}>
+                                <div className="flex flex-col gap-1 text-xs justify-center items-center py-2 px-4 w-fit">
+                                    <p>Placa {selectedMarker.plate}</p>
+                                    <p>Frota {selectedMarker.fleet}</p>
+                                    <p> {formatDate(selectedMarker.createdAt)}</p>
+                                    <a
+                                        className="underline underline-offset-2 decoration-foreground text-nowrap"
+                                        href={`https://www.google.com/maps?q=${selectedMarker.lat},${selectedMarker.lng}`}
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                    >
+                                        {selectedMarker.lat}, {selectedMarker.lng}
+                                    </a>
+                                </div>
+                            </InfoWindow>
+                        )}
+                    </GoogleMap>
+                );
+        }
+    }
 
-                    {selectedMarker && (
-                        <InfoWindow position={selectedMarker} onCloseClick={() => setSelectedMarker(null)}>
-                            <div className="flex flex-col gap-1 text-xs justify-center items-center py-2 px-4 w-fit">
-                                <p>Placa {selectedMarker.plate}</p>
-                                <p>Frota {selectedMarker.fleet}</p>
-                                <p> {formatDate(selectedMarker.createdAt)}</p>
-                                <a
-                                    className="underline underline-offset-2 decoration-foreground text-nowrap"
-                                    href={`https://www.google.com/maps?q=${selectedMarker.lat},${selectedMarker.lng}`}
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                >
-                                    {selectedMarker.lat}, {selectedMarker.lng}
-                                </a>
-                            </div>
-                        </InfoWindow>
-                    )}
-                </GoogleMap>
-            ) : (
-                <Skeleton className="h-full w-full " />
-            )}
-        </div>
-    );
+    return <div className="rounded-lg overflow-hidden h-[518px] content-center w-full text-center">{isLoaded ? renderSwitch() : null}</div>;
 }
