@@ -40,29 +40,29 @@ const dataSlice = createSlice({
             const newVehicles = action.payload.content.vehicles || [];
             const existingVehicles = state.data?.content?.vehicles || [];
 
-            const mergedVehicles = [...existingVehicles, ...newVehicles].reduce((acc, vehicle) => {
-                if (!acc.some((v: Vehicle) => v.id === vehicle.id)) {
-                    acc.push(vehicle);
-                }
-                return acc;
-            }, []);
+            const mergedVehicles = [...existingVehicles, ...newVehicles]
+                .reduce((acc, vehicle: Vehicle) => {
+                    acc.set(vehicle.id, vehicle); // Substitui ou adiciona o veículo
+                    return acc;
+                }, new Map())
+                .values();
 
             const newLocations = action.payload.content.locationVehicle || [];
             const existingLocations = state.data?.content?.locationVehicles || [];
 
-            const mergedLocations = [...existingLocations, ...newLocations].reduce((acc, location) => {
-                if (!acc.some((l: VehicleLocation) => l.id === location.id)) {
-                    acc.push(location);
-                }
-                return acc;
-            }, []);
+            const mergedLocations = [...existingLocations, ...newLocations]
+                .reduce((acc, location: VehicleLocation) => {
+                    acc.set(location.id, location); // Substitui ou adiciona a localização
+                    return acc;
+                }, new Map())
+                .values();
 
             state.data = {
                 ...action.payload,
                 content: {
                     ...action.payload.content,
-                    vehicles: mergedVehicles,
-                    locationVehicle: mergedLocations,
+                    vehicles: Array.from(mergedVehicles),
+                    locationVehicle: Array.from(mergedLocations),
                 },
             };
         },
