@@ -68,7 +68,7 @@ npm install
 
 `VITE_API_TOKEN`
 
-[Para obter a VITE_API_TOKEN entre em contato com](inavarro@control361.com.b)
+Para obter a VITE_API_TOKEN entre em contato com: `inavarro@control361.com.br`
 
 #### 🔑 Chave de API do Google Maps
 
